@@ -32,12 +32,11 @@ app.get('/todos',(req,res) => {
 
 app.get('/todos/:id',(req,res) => {
     var id = req.params.id;
-    console.log(id);
     if(!ObjectId.isValid(id)){
         res.status(404).send({"message":"Todo not Found"});
     } 
     Todo.findById(id).then((todo) => {
-        console.log(todo);
+        // console.log(todo);
         if(!todo){
           return res.status(404).send({"message":"Todo not Found"});
             
@@ -45,16 +44,30 @@ app.get('/todos/:id',(req,res) => {
         res.send(todo);
     }).catch((e) => {
         res.status(400).send();
-    })
+    });
     
-})
+});
 
+app.delete('/todos/:id',(req,res) => {
+    var id = req.params.id;
+    if(!ObjectId.isValid(id)){
+        res.status(404).send({"message":"Todo not Found"});
+    }
+    Todo.findByIdAndRemove(id).then((todo) => {
+        if(!todo){
+            return res.status(404).send({"message":"Todo not Found"});
+        }
+        res.send({todo});
+    }).catch((e) => {
+        res.status(400).send();
+    });
+});
 
 app.listen(port,(err)=>{
     if(err){
         return console.log(err.message);
     }
-    console.log('server is listening on ${port}');
+    console.log(`server is listening on ${port}`);
 
 })
 
