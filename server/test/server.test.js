@@ -149,3 +149,31 @@ describe('Should delete the todos', () => {
             .end(done);
     });
 });
+
+describe('PATCH /todos/:id', () => {
+    it('should update todos', (done) => {
+        todos[0].text = "completed the tdod";
+        todos[0].completed = true;
+        request(app)
+            .patch(`/todos/${todos[0]._id.toHexString()}`)
+            .expect(200)
+            .send(todos[0])
+            .expect((res) => {
+                //console.log(res.body);
+                expect(res.body.todo.completed).toBe(true);
+                expect(res.body.todo.text).toBe(todos[0].text);
+            })
+            .end(done);
+    });
+
+    // it('should give document not found', (done) => {
+    //     request(app)
+    //         .get(`/todos/${todos[0]._id.toHexString()}`)
+    //         .expect(404)
+    //         .send({"completed" : false})
+    //         .expect((res) => {
+    //             expect(res.body.message).toBe('Todo not Found');
+    //         })
+    //         .end(done);
+    // });
+});
