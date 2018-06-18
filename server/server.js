@@ -155,6 +155,23 @@ app.post('/users',(req,res) => {
     });
 });
 
+app.get('/users/me',(req,res) => {
+    var token = req.header('x-auth');
+
+    User.findByToken(token).then((user) => {
+        console.log(user);
+        if(!user){
+            return res.status(404).send({"message":"User Not Found"});
+        }
+        
+        return res.send({user});
+    
+
+    }).catch((e) => {
+        res.status(400).send();
+    });
+});
+
 app.listen(port, (err) => {
     if (err) {
         return console.log(err.message);
