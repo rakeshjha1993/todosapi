@@ -19,7 +19,7 @@ const {_} = require('lodash');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
-const {cors} = require('cors');
+const cors = require('cors');
 
 
 //console.log(process.env.MONGODB_URI);
