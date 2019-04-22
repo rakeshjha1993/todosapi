@@ -19,6 +19,7 @@ const {_} = require('lodash');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
+const {cors} = require('cors');
 
 
 //console.log(process.env.MONGODB_URI);
@@ -27,6 +28,8 @@ const {User} = require('./models/user');
 var app = express();
 var port = process.env.PORT;
 app.use(bodyParser.json());
+app.use(cors());
+
 
 // todos routes
 
@@ -144,7 +147,7 @@ app.post('/users',(req,res) => {
     );
     user.save().then((user)=>{
         return user.generateAuthToken();
-       
+
     })
     .then((token) => {
         res.header('x-auth', token).send(user);
@@ -163,9 +166,9 @@ app.get('/users/me',(req,res) => {
         if(!user){
             return res.status(404).send({"message":"User Not Found"});
         }
-        
+
         return res.send({user});
-    
+
 
     }).catch((e) => {
         res.status(400).send();
