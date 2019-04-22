@@ -27,8 +27,9 @@ const cors = require('cors');
 
 var app = express();
 var port = process.env.PORT;
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
+
 
 
 // todos routes
